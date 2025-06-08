@@ -1,0 +1,13 @@
+---
+- name: Install Apache Maven
+  hosts: cluspar
+  become: yes
+
+  tasks:
+    - name: Install Maven and its dependencies
+      ansible.builtin.apt:
+        name: 
+        - openjdk-17-jdk
+        - maven
+        state: present
+        update_cache: true
