@@ -8,3 +8,4 @@
 
 # Ansible inventory
 inventory.yaml
+target
