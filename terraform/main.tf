@@ -73,7 +73,24 @@ resource "mgc_network_security_groups_attach" "cluspar"{
     interface_id = mgc_virtual_machine_instances.cluspar.network_interfaces[0].id
 }
 
+resource "mgc_network_security_groups" "monitoring" {
+    name = "monitoring"
+    description = "Security group for monitoring public access"
+    disable_default_rules = false
+}
+
+resource "mgc_network_security_groups_rules" "allow_prometheus_server" {
+    description = "Allow access to Prometheus"
+    direction = "ingress"
+    ethertype = "IPv4"
+    port_range_max = 9090
+    port_range_min = 9090
+    protocol = "tcp"
+    remote_ip_prefix = "0.0.0.0/0"
+    security_group_id = mgc_network_security_groups.monitoring.id
+}
+
 resource "mgc_network_security_groups_attach" "monitoring"{
-    security_group_id = mgc_network_security_groups.cluspar.id
+    security_group_id = mgc_network_security_groups.monitoring.id
     interface_id = mgc_virtual_machine_instances.monitoring.network_interfaces[0].id
 }
