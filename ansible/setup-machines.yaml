@@ -1,0 +1,32 @@
+---
+- name: Configure ClusPar machines
+  hosts: cluspar
+  become: yes
+
+  tasks:
+    - name: Install Maven and its dependencies
+      ansible.builtin.apt:
+        name: 
+        - openjdk-17-jdk
+        - maven
+        state: present
+        update_cache: true
+
+    - name: Install Prometheus Node Exporter
+      ansible.builtin.include_role:
+        name: prometheus.prometheus.node_exporter
+
+- name: Configure monitoring machines
+  hosts: monitoring
+  become: yes
+  vars:
+    prometheus_targets:
+      node:
+      - targets:
+        - "{{ hostvars['cluspar'].private_ip }}:9100"
+        labels:
+          machine: cluspar  
+  tasks:
+    - name: Install Prometheus
+      ansible.builtin.include_role:
+        name: prometheus.prometheus.prometheus
