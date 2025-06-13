@@ -29,7 +29,7 @@ variable monitoring_machine_image {
 variable cluspar_machine_type {
     type = string
     description = "cluspar machines type (flavor)"
-    default = "BV2-4-20"
+    default = "BV8-32-20"
 }
 
 variable monitoring_machine_type {

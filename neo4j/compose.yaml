@@ -1,0 +1,17 @@
+services:
+  neo4j:
+    image: neo4j:5.20 # ou versão mais recente estável
+    container_name: neo4j
+    ports:
+      - "7474:7474"   # Interface Web
+      - "7687:7687"   # Bolt (Cypher Shell, drivers)
+    environment:
+      NEO4J_AUTH: neo4j/strongpass123 # login: neo4j, senha: test
+      NEO4J_dbms_security_allow__csv__import__from__file__urls: "true"
+      NEO4J_dbms_default__database: "neo4j"
+    volumes:
+      - ./neo4j:/var/lib/neo4j/import # coloque seus CSVs na pasta ./import
+      - neo4j_data:/data
+
+volumes:
+  neo4j_data:

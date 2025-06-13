@@ -68,6 +68,28 @@ resource "mgc_network_security_groups" "cluspar" {
     disable_default_rules = false
 }
 
+resource "mgc_network_security_groups_rules" "allow_neo4j" {
+    description = "Allow access to neo4j"
+    direction = "ingress"
+    ethertype = "IPv4"
+    port_range_max = 7474
+    port_range_min = 7474
+    protocol = "tcp"
+    remote_ip_prefix = "0.0.0.0/0"
+    security_group_id = mgc_network_security_groups.cluspar.id
+}
+
+resource "mgc_network_security_groups_rules" "allow_neo4j_2" {
+    description = "Allow access to neo4j"
+    direction = "ingress"
+    ethertype = "IPv4"
+    port_range_max = 7687
+    port_range_min = 7687
+    protocol = "tcp"
+    remote_ip_prefix = "0.0.0.0/0"
+    security_group_id = mgc_network_security_groups.cluspar.id
+}
+
 resource "mgc_network_security_groups_attach" "cluspar"{
     security_group_id = mgc_network_security_groups.cluspar.id
     interface_id = mgc_virtual_machine_instances.cluspar.network_interfaces[0].id

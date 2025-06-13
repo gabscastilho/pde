@@ -9,3 +9,5 @@
 # Ansible inventory
 inventory.yaml
 target
+
+venv
